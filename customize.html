@@ -1,1 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#ff4f9a">
+
+    <title>BirthdayVerse — Customize</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="theme-love customize-page">
+
+    <!-- Background -->
+    <div class="background"></div>
+    <div id="stars"></div>
+
+    <!-- Top Bar -->
+    <header class="top-bar">
+
+        <div class="brand">
+            ✨ BirthdayVerse
+        </div>
+
+        <button
+            type="button"
+            class="glass-button"
+            onclick="goToCelebration()">
+            🎉 Preview
+        </button>
+
+    </header>
+
+
+    <main>
+
+        <!-- Heading -->
+        <section class="section customize-hero">
+
+            <p class="welcome-label">
+                ✨ CREATE SOMETHING MAGICAL
+            </p>
+
+            <h1>
+                Customize Your
+                <span>BirthdayVerse</span>
+            </h1>
+
+            <p class="section-description">
+                Create a beautiful personalized birthday experience
+                for someone special.
+            </p>
+
+        </section>
+
+
+        <!-- Personal Details -->
+        <section class="section">
+
+            <h2>👤 Personal Details</h2>
+
+            <p class="section-description">
+                Tell us about the birthday person.
+            </p>
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Birthday Person's Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Example: Rahul">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="nickname">
+                        Nickname
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nickname"
+                        placeholder="Example: Raju">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="age">
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        min="1"
+                        max="120"
+                        placeholder="Example: 20">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="sender">
+                        Your Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="sender"
+                        placeholder="Example: Geethika">
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="birthdayDate">
+                        🎂 Birthday Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="birthdayDate">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Birthday Message -->
+        <section class="section">
+
+            <h2>💌 Birthday Message</h2>
+
+            <p class="section-description">
+                Write a special message that will appear on the
+                celebration page.
+            </p>
+
+
+            <div class="form-group">
+
+                <label for="message">
+                    Your Message
+                </label>
+
+                <textarea
+                    id="message"
+                    rows="7"
+                    placeholder="Write your heartfelt birthday message here..."></textarea>
+
+            </div>
+
+
+            <div class="message-counter">
+                <span id="messageCounter">0</span> / 500
+            </div>
+
+        </section>
+
+
+        <!-- Theme -->
+        <section class="section">
+
+            <h2>🎨 Choose a Theme</h2>
+
+            <p class="section-description">
+                Choose the atmosphere for the birthday celebration.
+            </p>
+
+
+            <div class="theme-grid">
+
+                <button
+                    type="button"
+                    class="theme-option active"
+                    data-theme="love">
+
+                    <span class="theme-preview theme-love-preview">
+                        💗
+                    </span>
+
+                    <strong>Love</strong>
+
+                    <small>
+                        Pink & Purple
+                    </small>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="theme-option"
+                    data-theme="ocean">
+
+                    <span class="theme-preview theme-ocean-preview">
+                        🌊
+                    </span>
+
+                    <strong>Ocean</strong>
+
+                    <small>
+                        Blue & Cyan
+                    </small>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="theme-option"
+                    data-theme="royal">
+
+                    <span class="theme-preview theme-royal-preview">
+                        👑
+                    </span>
+
+                    <strong>Royal</strong>
+
+                    <small>
+                        Purple & Gold
+                    </small>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="theme-option"
+                    data-theme="midnight">
+
+                    <span class="theme-preview theme-midnight-preview">
+                        🌙
+                    </span>
+
+                    <strong>Midnight</strong>
+
+                    <small>
+                        Blue & Dark
+                    </small>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="theme-option"
+                    data-theme="sunset">
+
+                    <span class="theme-preview theme-sunset-preview">
+                        🌅
+                    </span>
+
+                    <strong>Sunset</strong>
+
+                    <small>
+                        Orange & Pink
+                    </small>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="theme-option"
+                    data-theme="galaxy">
+
+                    <span class="theme-preview theme-galaxy-preview">
+                        🌌
+                    </span>
+
+                    <strong>Galaxy</strong>
+
+                    <small>
+                        Purple & Blue
+                    </small>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Photos -->
+        <section class="section">
+
+            <h2>📸 Your Memories</h2>
+
+            <p class="section-description">
+                Add photos that you want to display in the gallery.
+            </p>
+
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    📷
+                </div>
+
+                <h3>
+                    Add Photos
+                </h3>
+
+                <p>
+                    Select multiple photos from your device.
+                </p>
+
+                <label
+                    for="photoInput"
+                    class="upload-button">
+
+                    Choose Photos
+
+                </label>
+
+                <input
+                    type="file"
+                    id="photoInput"
+                    accept="image/*"
+                    multiple
+                    hidden>
+
+            </div>
+
+
+            <div
+                id="photoPreview"
+                class="upload-preview">
+            </div>
+
+        </section>
+
+
+        <!-- Video -->
+        <section class="section">
+
+            <h2>🎥 Add a Special Video</h2>
+
+            <p class="section-description">
+                Upload a birthday video or special memory.
+            </p>
+
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    🎬
+                </div>
+
+                <h3>
+                    Add Video
+                </h3>
+
+                <p>
+                    Choose a video from your device.
+                </p>
+
+                <label
+                    for="videoInput"
+                    class="upload-button">
+
+                    Choose Video
+
+                </label>
+
+                <input
+                    type="file"
+                    id="videoInput"
+                    accept="video/*"
+                    hidden>
+
+            </div>
+
+
+            <div
+                id="videoPreview"
+                class="upload-preview">
+            </div>
+
+        </section>
+
+
+        <!-- Music -->
+        <section class="section">
+
+            <h2>🎵 Birthday Playlist</h2>
+
+            <p class="section-description">
+                Add songs that make the birthday celebration special.
+            </p>
+
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    🎶
+                </div>
+
+                <h3>
+                    Add Songs
+                </h3>
+
+                <p>
+                    You can select multiple audio files.
+                </p>
+
+                <label
+                    for="musicInput"
+                    class="upload-button">
+
+                    Choose Songs
+
+                </label>
+
+                <input
+                    type="file"
+                    id="musicInput"
+                    accept="audio/*"
+                    multiple
+                    hidden>
+
+            </div>
+
+
+            <div
+                id="musicPreview"
+                class="upload-preview">
+            </div>
+
+        </section>
+
+
+        <!-- Voice Wish -->
+        <section class="section">
+
+            <h2>🎙️ Voice Wish</h2>
+
+            <p class="section-description">
+                Add a personal voice message for the birthday person.
+            </p>
+
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    🎤
+                </div>
+
+                <h3>
+                    Add Voice Message
+                </h3>
+
+                <p>
+                    Upload an audio recording.
+                </p>
+
+                <label
+                    for="voiceInput"
+                    class="upload-button">
+
+                    Choose Voice
+
+                </label>
+
+                <input
+                    type="file"
+                    id="voiceInput"
+                    accept="audio/*"
+                    hidden>
+
+            </div>
+
+
+            <div
+                id="voicePreview"
+                class="upload-preview">
+            </div>
+
+        </section>
+
+
+        <!-- Live Preview -->
+        <section class="section live-preview-section">
+
+            <h2>👀 Live Preview</h2>
+
+            <div class="preview-card">
+
+                <p class="preview-small">
+                    HAPPY BIRTHDAY
+                </p>
+
+                <h2 id="previewName">
+                    Birthday Star
+                </h2>
+
+                <p id="previewMessage">
+                    Your birthday message will appear here...
+                </p>
+
+                <p id="previewSender">
+                    — Someone Special
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- Save -->
+        <section class="section save-section">
+
+            <button
+                type="button"
+                id="saveButton"
+                class="primary-button">
+
+                ✨ Save BirthdayVerse
+
+            </button>
+
+
+            <button
+                type="button"
+                id="celebrateButton"
+                class="secondary-button">
+
+                🎉 Save & Celebrate
+
+            </button>
+
+
+            <p
+                id="saveStatus"
+                class="save-status">
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script src="customize.js"></script>
+
+</body>
+</html>
