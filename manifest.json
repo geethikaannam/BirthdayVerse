@@ -1,1 +1,22 @@
-
+{
+    "name": "BirthdayVerse",
+    "short_name": "BirthdayVerse",
+    "description": "A magical personalized birthday celebration.",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#090314",
+    "theme_color": "#ff4f9a",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "https://dummyimage.com/192x192/ff4f9a/ffffff.png&text=BV",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://dummyimage.com/512x512/9b5cff/ffffff.png&text=BV",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
