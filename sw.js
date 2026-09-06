@@ -1,4 +1,4 @@
-const CACHE_NAME = "birthdayverse-part8a-v1";
+const CACHE_NAME = "birthdayverse-part8a-v2";
 
 const FILES_TO_CACHE = [
     "./",
@@ -8,6 +8,11 @@ const FILES_TO_CACHE = [
     "./manifest.json"
 ];
 
+
+/* =========================
+   INSTALL
+   ========================= */
+
 self.addEventListener("install", event => {
 
     event.waitUntil(
@@ -15,95 +20,115 @@ self.addEventListener("install", event => {
         caches.open(CACHE_NAME)
             .then(cache => {
 
-                return cache.addAll(FILES_TO_CACHE);
+                return cache.addAll(
+                    FILES_TO_CACHE
+                );
 
             })
 
     );
 
     self.skipWaiting();
-
 });
 
+
+/* =========================
+   ACTIVATE
+   ========================= */
 
 self.addEventListener("activate", event => {
 
     event.waitUntil(
 
-        caches.keys().then(keys => {
+        caches.keys()
+            .then(keys => {
 
-            return Promise.all(
+                return Promise.all(
 
-                keys.map(key => {
-
-                    if (key !== CACHE_NAME) {
-
-                        return caches.delete(key);
-
-                    }
-
-                })
-
-            );
-
-        })
-
-    );
-
-    self.clients.claim();
-
-});
-
-
-self.addEventListener("fetch", event => {
-
-    event.respondWith(
-
-        caches.match(event.request)
-            .then(cachedResponse => {
-
-                if (cachedResponse) {
-
-                    return cachedResponse;
-
-                }
-
-                return fetch(event.request)
-                    .then(response => {
+                    keys.map(key => {
 
                         if (
-                            response &&
-                            response.status === 200 &&
-                            response.type === "basic"
+                            key !== CACHE_NAME
                         ) {
 
-                            const responseClone =
-                                response.clone();
-
-                            caches.open(CACHE_NAME)
-                                .then(cache => {
-
-                                    cache.put(
-                                        event.request,
-                                        responseClone
-                                    );
-
-                                });
-
+                            return caches.delete(
+                                key
+                            );
                         }
-
-                        return response;
 
                     })
 
-                    .catch(() => {
-
-                        return caches.match("./index.html");
-
-                    });
+                );
 
             })
 
     );
 
+    self.clients.claim();
+});
+
+
+/* =========================
+   FETCH
+   ========================= */
+
+self.addEventListener("fetch", event => {
+
+    event.respondWith(
+
+        caches.match(
+            event.request
+        )
+        .then(cachedResponse => {
+
+            if (cachedResponse) {
+
+                return cachedResponse;
+
+            }
+
+
+            return fetch(
+                event.request
+            )
+            .then(response => {
+
+                if (
+                    response &&
+                    response.status === 200 &&
+                    response.type === "basic"
+                ) {
+
+                    const responseClone =
+                        response.clone();
+
+
+                    caches.open(
+                        CACHE_NAME
+                    )
+                    .then(cache => {
+
+                        cache.put(
+                            event.request,
+                            responseClone
+                        );
+
+                    });
+
+                }
+
+                return response;
+
+            })
+            .catch(() => {
+
+                return caches.match(
+                    "./index.html"
+                );
+
+            });
+
+        })
+
+    );
 });
