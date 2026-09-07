@@ -1,1023 +1,691 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <meta name="theme-color"
-          content="#12051f">
-
-    <meta name="description"
-          content="A beautiful personalized birthday celebration created with BirthdayVerse.">
-
-    <link rel="manifest"
-          href="manifest.json">
-
-    <link rel="apple-touch-icon"
-          href="https://dummyimage.com/192x192/ff4f9a/ffffff.png&text=BV">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff4f9a">
 
     <title>BirthdayVerse 🎂</title>
 
-    <link rel="stylesheet"
-          href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="theme-love">
 
-    <!-- =========================
-         BACKGROUND
-    ========================== -->
+<div class="background">
+    <div class="moon"></div>
+    <div id="stars"></div>
 
-    <div class="background">
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
 
-        <div class="moon"></div>
+    <div class="heart">💗</div>
+    <div class="heart">💗</div>
+    <div class="heart">💗</div>
+</div>
 
-        <div id="stars"></div>
+<header class="top-bar">
 
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
+    <div class="brand">
+        ✨ Birthday<span>Verse</span>
+    </div>
 
-        <div class="heart">♥</div>
-        <div class="heart">♥</div>
-        <div class="heart">♥</div>
+    <div class="top-actions">
+
+        <button
+            class="back-button"
+            onclick="goBack()">
+            ← Customize
+        </button>
+
+        <button
+            class="music-button"
+            onclick="toggleMusic()">
+            🎵 Music
+        </button>
 
     </div>
 
-
-    <!-- EFFECT CONTAINERS -->
-
-    <div id="balloons"></div>
-
-    <div id="confettiContainer"></div>
-
-    <canvas id="fireworksCanvas"></canvas>
+</header>
 
 
-    <!-- =========================
-         TOP BAR
-    ========================== -->
+<main class="celebration-page">
 
-    <header class="top-bar">
+    <!-- WELCOME -->
 
-        <button id="backButton"
-                class="back-button">
-            ← Back
-        </button>
+    <section class="welcome-section reveal">
+
+        <p class="welcome-label">
+            ✨ A SPECIAL DAY • A SPECIAL PERSON ✨
+        </p>
+
+        <h1>
+            Welcome to BirthdayVerse
+        </h1>
+
+        <p>
+            A little universe created especially for you 💖
+        </p>
+
+    </section>
 
 
-        <div class="brand">
+    <!-- COUNTDOWN -->
 
-            <span>Birthday</span>Verse ✨
+    <section class="countdown-card reveal">
+
+        <h2>🎂 Birthday Countdown</h2>
+
+        <div class="countdown">
+
+            <div class="count-box">
+                <span id="days">00</span>
+                <small>Days</small>
+            </div>
+
+            <div class="count-box">
+                <span id="hours">00</span>
+                <small>Hours</small>
+            </div>
+
+            <div class="count-box">
+                <span id="minutes">00</span>
+                <small>Minutes</small>
+            </div>
+
+            <div class="count-box">
+                <span id="seconds">00</span>
+                <small>Seconds</small>
+            </div>
 
         </div>
 
+    </section>
 
-        <div class="top-actions">
 
-            <button id="installButton"
-                    class="install-button">
-                📱 Install
+    <!-- HERO -->
+
+    <section class="hero-section reveal">
+
+        <p class="birthday-subtitle">
+            🎉 TODAY WE CELEBRATE
+        </p>
+
+        <h1 id="birthdayTitle">
+            Birthday Star
+        </h1>
+
+        <h2 id="birthdaySubtitle">
+            Happy Birthday! 🎂
+        </h2>
+
+        <p class="age-text" id="ageText"></p>
+
+    </section>
+
+
+    <!-- WISH -->
+
+    <section class="wish-message reveal">
+
+        💫 May your day be filled with happiness,
+        laughter and beautiful memories! 💫
+
+    </section>
+
+
+    <!-- MESSAGE -->
+
+    <section class="message-card reveal">
+
+        <div class="message-icon">
+            💌
+        </div>
+
+        <h2>A Special Message</h2>
+
+        <p
+            id="personalMessage"
+            class="personal-message">
+        </p>
+
+        <p
+            id="senderDisplay"
+            class="sender-display">
+        </p>
+
+    </section>
+
+
+    <!-- THEME -->
+
+    <section class="reveal">
+
+        <div class="section-heading">
+
+            <span>🎨</span>
+
+            <div>
+                <h2>Birthday Theme</h2>
+                <p>Your chosen atmosphere</p>
+            </div>
+
+        </div>
+
+        <div class="theme-selector">
+
+            <button
+                class="theme-choice"
+                data-theme="love">
+                💗
+                <span>Love</span>
             </button>
 
-            <button id="musicButton"
-                    class="music-button">
-                🎵
+            <button
+                class="theme-choice"
+                data-theme="ocean">
+                🌊
+                <span>Ocean</span>
+            </button>
+
+            <button
+                class="theme-choice"
+                data-theme="royal">
+                👑
+                <span>Royal</span>
+            </button>
+
+            <button
+                class="theme-choice"
+                data-theme="midnight">
+                🌙
+                <span>Midnight</span>
+            </button>
+
+            <button
+                class="theme-choice"
+                data-theme="sunset">
+                🌅
+                <span>Sunset</span>
+            </button>
+
+            <button
+                class="theme-choice"
+                data-theme="galaxy">
+                🌌
+                <span>Galaxy</span>
             </button>
 
         </div>
 
-    </header>
+    </section>
 
 
-    <main class="celebration-page">
+    <!-- CAKE -->
 
+    <section class="cake-section reveal">
 
-        <!-- =========================
-             WELCOME
-        ========================== -->
-
-        <section class="welcome-section reveal">
-
-            <div class="welcome-label">
-                ✨ A special celebration ✨
-            </div>
-
-            <h1 id="typingGreeting"></h1>
-
-            <p id="typingSubtitle"></p>
-
-        </section>
-
-
-        <!-- =========================
-             COUNTDOWN
-        ========================== -->
-
-        <section class="countdown-section reveal">
-
-            <div class="countdown-card">
-
-                <h2>🎂 Birthday Countdown</h2>
-
-                <div class="countdown">
-
-                    <div class="count-box">
-                        <span id="countDays">00</span>
-                        <small>Days</small>
-                    </div>
-
-                    <div class="count-box">
-                        <span id="countHours">00</span>
-                        <small>Hours</small>
-                    </div>
-
-                    <div class="count-box">
-                        <span id="countMinutes">00</span>
-                        <small>Minutes</small>
-                    </div>
-
-                    <div class="count-box">
-                        <span id="countSeconds">00</span>
-                        <small>Seconds</small>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             HERO
-        ========================== -->
-
-        <section class="hero-section reveal">
-
-            <p class="birthday-subtitle">
-                Today is all about
-            </p>
-
-            <h1 id="birthdayTitle">
-                Happy Birthday!
-            </h1>
-
-            <h2 id="birthdaySubtitle">
-                May your day be filled with happiness ✨
-            </h2>
-
-            <div id="ageText"
-                 class="age-text">
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             THEMES
-        ========================== -->
-
-        <section class="theme-section reveal">
-
-            <div class="section-heading">
-
-                <span>🎨</span>
-
-                <div>
-                    <h2>Choose Your Vibe</h2>
-                    <p>Change the celebration theme</p>
-                </div>
-
-            </div>
-
-
-            <div class="theme-selector">
-
-                <button class="theme-choice active"
-                        data-theme="love">
-                    💕
-                    <span>Love</span>
-                </button>
-
-                <button class="theme-choice"
-                        data-theme="ocean">
-                    🌊
-                    <span>Ocean</span>
-                </button>
-
-                <button class="theme-choice"
-                        data-theme="royal">
-                    👑
-                    <span>Royal</span>
-                </button>
-
-                <button class="theme-choice"
-                        data-theme="midnight">
-                    🌙
-                    <span>Midnight</span>
-                </button>
-
-                <button class="theme-choice"
-                        data-theme="sunset">
-                    🌅
-                    <span>Sunset</span>
-                </button>
-
-                <button class="theme-choice"
-                        data-theme="galaxy">
-                    🌌
-                    <span>Galaxy</span>
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             CAKE
-        ========================== -->
-
-        <section class="cake-section reveal">
+        <div class="cake">
 
             <div class="cake-glow"></div>
 
+            <div class="candles">
 
-            <div class="cake">
-
-                <div class="cake-top"></div>
-
-
-                <div class="candles">
-
-                    <div class="candle">
-                        <div class="flame"></div>
-                        <div class="wick"></div>
-                        <div class="candle-body"></div>
-                    </div>
-
-                    <div class="candle">
-                        <div class="flame"></div>
-                        <div class="wick"></div>
-                        <div class="candle-body"></div>
-                    </div>
-
-                    <div class="candle">
-                        <div class="flame"></div>
-                        <div class="wick"></div>
-                        <div class="candle-body"></div>
-                    </div>
-
-                    <div class="candle">
-                        <div class="flame"></div>
-                        <div class="wick"></div>
-                        <div class="candle-body"></div>
-                    </div>
-
-                    <div class="candle">
-                        <div class="flame"></div>
-                        <div class="wick"></div>
-                        <div class="candle-body"></div>
-                    </div>
-
+                <div class="candle">
+                    <div class="flame"></div>
+                    <div class="candle-body"></div>
                 </div>
 
-
-                <div class="cake-middle"></div>
-
-                <div class="cake-bottom"></div>
-
-                <div class="cake-plate"></div>
-
-            </div>
-
-
-            <p class="candle-instruction">
-                Make a wish and blow the candles! 🕯️
-            </p>
-
-
-            <button id="blowButton"
-                    class="blow-button">
-                💨 Blow Candles
-            </button>
-
-        </section>
-
-
-        <!-- =========================
-             WISH
-        ========================== -->
-
-        <section class="wish-section reveal">
-
-            <div id="wishMessage"
-                 class="wish-message">
-
-                ✨ Make a beautiful birthday wish... ✨
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             FIREWORKS
-        ========================== -->
-
-        <section class="fireworks-section reveal">
-
-            <button id="fireworksButton"
-                    class="fireworks-button">
-
-                🎆 Launch Fireworks
-
-            </button>
-
-        </section>
-
-
-        <!-- =========================
-             MESSAGE
-        ========================== -->
-
-        <section class="message-section reveal">
-
-            <div class="message-card">
-
-                <div class="message-icon">
-                    💌
+                <div class="candle">
+                    <div class="flame"></div>
+                    <div class="candle-body"></div>
                 </div>
 
-                <p id="personalMessage"
-                   class="personal-message">
-
-                    Your birthday message will appear here.
-
-                </p>
-
-                <div id="senderDisplay"
-                     class="sender-display">
-
-                    With love ❤️
-
+                <div class="candle">
+                    <div class="flame"></div>
+                    <div class="candle-body"></div>
                 </div>
 
             </div>
 
-        </section>
+            <div class="cake-top"></div>
+            <div class="cake-middle"></div>
+            <div class="cake-bottom"></div>
+            <div class="cake-plate"></div>
+
+        </div>
+
+        <p class="candle-instruction">
+            Make a wish and blow out the candles! 🕯️
+        </p>
+
+        <button
+            class="blow-button"
+            onclick="blowCandles()">
+            🕯️ Blow Candles
+        </button>
+
+        <button
+            class="fireworks-button"
+            onclick="startFireworks()">
+            🎆 Fireworks
+        </button>
+
+        <p
+            id="wishResult"
+            class="wish-message">
+        </p>
+
+    </section>
 
 
-        <!-- =========================
-             PHOTO GALLERY
-        ========================== -->
+    <!-- GALLERY -->
 
-        <section id="gallerySection"
-                 class="gallery-section reveal">
+    <section class="reveal">
 
-            <div class="section-heading">
+        <div class="section-heading">
 
-                <span>📸</span>
+            <span>📸</span>
 
-                <div>
-                    <h2>Beautiful Memories</h2>
-                    <p>Your favorite moments</p>
-                </div>
-
+            <div>
+                <h2>Your Memories</h2>
+                <p>Beautiful moments</p>
             </div>
 
+        </div>
 
-            <div id="photoGallery"
-                 class="photo-gallery">
+        <div
+            id="photoGallery"
+            class="photo-gallery">
+        </div>
+
+    </section>
+
+
+    <!-- VIDEO -->
+
+    <section class="reveal">
+
+        <div class="section-heading">
+
+            <span>🎥</span>
+
+            <div>
+                <h2>Special Video</h2>
+                <p>A memory to replay</p>
             </div>
 
+        </div>
 
-            <div id="emptyGallery"
-                 class="empty-gallery">
+        <div
+            id="videoGallery"
+            class="video-gallery">
+        </div>
 
-                📷 Your memories will appear here.
+    </section>
 
+
+    <!-- MUSIC -->
+
+    <section class="reveal">
+
+        <div class="section-heading">
+
+            <span>🎵</span>
+
+            <div>
+                <h2>Birthday Music</h2>
+                <p>Your special playlist</p>
             </div>
 
-        </section>
+        </div>
 
+        <div class="music-player">
 
-        <!-- =========================
-             VIDEOS
-        ========================== -->
-
-        <section id="videoSection"
-                 class="video-section reveal">
-
-            <div class="section-heading">
-
-                <span>🎥</span>
-
-                <div>
-                    <h2>Special Videos</h2>
-                    <p>Moments worth replaying</p>
-                </div>
-
+            <div
+                class="music-disc"
+                id="musicDisc">
+                🎵
             </div>
 
+            <div class="music-info">
 
-            <div id="videoGallery"
-                 class="video-gallery">
-            </div>
-
-
-            <div id="emptyVideo"
-                 class="empty-gallery">
-
-                🎬 Add a special video from the customization page.
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             MEMORY BOOK
-        ========================== -->
-
-        <section class="memory-section reveal">
-
-            <div class="memory-book"
-                 id="memoryBook">
-
-
-                <div class="memory-cover">
-
-                    <div class="book-sparkle">
-                        ✦
-                    </div>
-
-                    <div class="book-icon">
-                        📖
-                    </div>
-
-                    <h2>
-                        Memory Book
-                    </h2>
-
-                    <p>
-                        A little book full of beautiful memories
-                    </p>
-
-                    <button id="openMemoryBook">
-                        Open Memory Book
-                    </button>
-
-                </div>
-
-
-                <div class="memory-pages">
-
-                    <button id="closeMemoryBook"
-                            class="close-memory">
-                        ×
-                    </button>
-
-
-                    <div class="memory-page active">
-
-                        <span>Page 1</span>
-
-                        <h2>
-                            ✨ A Beautiful Beginning
-                        </h2>
-
-                        <p id="memoryBookText">
-                            Every beautiful story deserves
-                            a beautiful beginning.
-                        </p>
-
-                    </div>
-
-
-                    <div class="memory-page">
-
-                        <span>Page 2</span>
-
-                        <h2>
-                            📸 Favorite Memories
-                        </h2>
-
-                        <img id="memoryPhotoPreview"
-                             src=""
-                             alt="Memory">
-
-                    </div>
-
-
-                    <div class="memory-page">
-
-                        <span>Page 3</span>
-
-                        <h2>
-                            💖 Little Moments
-                        </h2>
-
-                        <p>
-                            The smallest moments often become
-                            the biggest memories.
-                        </p>
-
-                    </div>
-
-
-                    <div class="memory-page">
-
-                        <span>Page 4</span>
-
-                        <h2>
-                            🎂 One More Year
-                        </h2>
-
-                        <p>
-                            Keep smiling, keep dreaming and
-                            keep making memories.
-                        </p>
-
-                        <strong id="memoryBookName"></strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             BALLOONS
-        ========================== -->
-
-        <section class="balloon-section reveal">
-
-            <div class="section-heading">
-
-                <span>🎈</span>
-
-                <div>
-                    <h2>Pop the Balloons!</h2>
-                    <p>Tap them before they disappear</p>
-                </div>
-
-            </div>
-
-
-            <div class="balloon-score">
-
-                Score:
-                <strong id="balloonScore">
-                    0
-                </strong>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             MUSIC
-        ========================== -->
-
-        <section class="music-section reveal">
-
-            <div class="music-player">
-
-                <div id="musicDisc"
-                     class="music-disc">
-                    🎵
-                </div>
-
-
-                <div class="music-info">
-
-                    <h3 id="musicTitle">
-                        Birthday Playlist
-                    </h3>
-
-                    <p id="songCounter">
-                        0 / 0
-                    </p>
-
-
-                    <div class="music-progress">
-
-                        <div id="musicProgress"></div>
-
-                    </div>
-
-
-                    <div class="music-time">
-
-                        <span id="currentTime">
-                            0:00
-                        </span>
-
-                        <span id="duration">
-                            0:00
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="music-controls">
-
-                    <button id="previousSong">
-                        ⏮
-                    </button>
-
-                    <button id="playMusicButton"
-                            class="play-music-button">
-                        ▶
-                    </button>
-
-                    <button id="nextSong">
-                        ⏭
-                    </button>
-
-                </div>
-
-
-                <audio id="birthdayAudio"></audio>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             LETTER
-        ========================== -->
-
-        <section class="letter-section reveal">
-
-            <div class="birthday-letter">
-
-                <div class="letter-envelope"
-                     id="letterEnvelope">
-
-                    <div class="letter-seal">
-                        💌
-                    </div>
-
-                    <h2>
-                        A Letter For You
-                    </h2>
-
-                    <p>
-                        There is something special waiting inside...
-                    </p>
-
-                    <button id="openLetter">
-                        Open Letter 💕
-                    </button>
-
-                </div>
-
-
-                <div id="letterContent"
-                     class="letter-content">
-
-                    <div class="letter-top">
-                        💌
-                    </div>
-
-                    <h2>
-                        Dear Birthday Star,
-                    </h2>
-
-                    <div id="birthdayLetterText"></div>
-
-                    <p class="letter-ending">
-                        With lots of love ❤️
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             GIFT
-        ========================== -->
-
-        <section class="gift-section reveal">
-
-            <div class="section-heading">
-
-                <span>🎁</span>
-
-                <div>
-                    <h2>A Surprise For You</h2>
-                    <p>Something special is waiting...</p>
-                </div>
-
-            </div>
-
-
-            <div id="giftBox"
-                 class="gift-box">
-
-                <div class="gift-lid">
-
-                    <div class="gift-ribbon-horizontal"></div>
-
-
-                    <div class="gift-bow">
-
-                        <div class="bow-left"></div>
-
-                        <div class="bow-right"></div>
-
-                        <div class="bow-center"></div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="gift-body">
-
-                    <div class="gift-ribbon-vertical"></div>
-
-                </div>
-
-            </div>
-
-
-            <p id="giftHint"
-               class="gift-hint">
-
-                🎁 Tap the gift to open it
-
-            </p>
-
-
-            <div id="giftMessage"
-                 class="gift-message">
-
-                <div class="gift-message-icon">
-                    🎉
-                </div>
-
-                <h3>
-                    Surprise!
+                <h3 id="songTitle">
+                    Birthday Playlist
                 </h3>
 
-                <p id="giftMessageText">
-                    Your special birthday surprise is here! 💖
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             SHARE
-        ========================== -->
-
-        <section class="share-section reveal">
-
-            <div class="share-card">
-
-                <div class="share-icon">
-                    🔗
-                </div>
-
-                <h2>
-                    Share the Celebration
-                </h2>
-
                 <p>
-                    Send this birthday experience
-                    to someone special.
+                    Your selected birthday songs
                 </p>
 
-
-                <div class="share-buttons">
-
-                    <button id="shareButton">
-                        📲 Share
-                    </button>
-
-                    <button id="whatsappButton">
-                        💚 WhatsApp
-                    </button>
-
-                    <button id="copyLinkButton">
-                        🔗 Copy Link
-                    </button>
-
-                    <button id="qrButton">
-                        📲 QR Code
-                    </button>
-
-                </div>
-
-
-                <div id="shareStatus"
-                     class="share-status">
-                </div>
-
-
-                <div id="qrContainer"
-                     class="qr-container">
-
-                    <img id="qrImage"
-                         alt="BirthdayVerse QR Code">
-
-                    <p>
-                        Scan to open BirthdayVerse
-                    </p>
-
+                <div class="music-progress">
+                    <div id="musicProgress"></div>
                 </div>
 
             </div>
 
-        </section>
+            <div class="music-controls">
+
+                <button
+                    onclick="previousSong()">
+                    ⏮
+                </button>
+
+                <button
+                    class="play-music-button"
+                    onclick="toggleMusic()">
+                    ▶
+                </button>
+
+                <button
+                    onclick="nextSong()">
+                    ⏭
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
 
 
-        <!-- =========================
-             FINAL
-        ========================== -->
+    <!-- MEMORY BOOK -->
 
-        <section class="final-section reveal">
+    <section class="memory-book reveal">
 
-            <div class="final-cake">
-                🎂
+        <div
+            class="memory-cover"
+            id="memoryCover">
+
+            <div class="book-icon">
+                📖
             </div>
 
             <h2>
-                Happy Birthday
+                Our Memory Book
             </h2>
 
-            <h1 id="finalName">
-                Birthday Star
-            </h1>
-
-            <div class="final-hearts">
-                ♥ ♥ ♥ ♥ ♥
-            </div>
-
             <p>
-                May your life always be filled with love,
-                laughter and beautiful memories. ✨
+                Open the book and explore your memories.
             </p>
 
-        </section>
+            <button
+                class="open-memory-book"
+                onclick="openMemoryBook()">
+                📖 Open Memory Book
+            </button>
 
-    </main>
+        </div>
 
+        <div
+            class="memory-pages"
+            id="memoryPages">
 
-    <!-- =========================
-         CELEBRATION POPUP
-    ========================== -->
-
-    <div id="celebrationPopup"
-         class="celebration-popup">
-
-        <div class="celebration-popup-box">
-
-            <button class="popup-close-button"
-                    id="popupClose">
+            <button
+                class="close-memory"
+                onclick="closeMemoryBook()">
                 ×
             </button>
 
-            <div class="popup-icon">
+            <div
+                class="memory-page active">
+
+                <span>Page 1</span>
+
+                <h2>
+                    ✨ A Beautiful Beginning
+                </h2>
+
+                <p>
+                    Every beautiful memory begins
+                    with a beautiful moment.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LETTER -->
+
+    <section class="birthday-letter reveal">
+
+        <div
+            class="letter-envelope"
+            id="letterEnvelope">
+
+            <div class="letter-seal">
+                💌
+            </div>
+
+            <h2>
+                A Letter For You
+            </h2>
+
+            <p>
+                Someone special has something to say...
+            </p>
+
+            <button
+                class="open-letter"
+                onclick="openLetter()">
+                💌 Open Letter
+            </button>
+
+        </div>
+
+        <div
+            class="letter-content"
+            id="letterContent">
+
+            <div class="letter-top">
+                💌
+            </div>
+
+            <h2>
+                Dear <span id="letterName">
+                    Birthday Star
+                </span>,
+            </h2>
+
+            <p id="letterText">
+                Wishing you the happiest birthday
+                and a year filled with beautiful
+                moments, wonderful memories and
+                endless happiness.
+            </p>
+
+            <p class="letter-ending">
+                With love ❤️
+                <br>
+                <span id="letterSender">
+                    Someone Special
+                </span>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- GIFT -->
+
+    <section class="gift-section reveal">
+
+        <h2>🎁 One More Surprise</h2>
+
+        <div
+            class="gift-box"
+            id="giftBox"
+            onclick="openGift()">
+
+            <div class="gift-body"></div>
+
+            <div class="gift-lid"></div>
+
+            <div class="gift-ribbon-horizontal"></div>
+
+            <div class="gift-ribbon-vertical"></div>
+
+            <div class="gift-bow">
+
+                <div class="bow-left"></div>
+                <div class="bow-right"></div>
+                <div class="bow-center"></div>
+
+            </div>
+
+        </div>
+
+        <div
+            class="gift-message"
+            id="giftMessage">
+
+            <div class="gift-message-icon">
                 🎉
             </div>
 
             <h2>
-                Happy Birthday! 🎂
+                Surprise!
             </h2>
 
             <p>
-                Your wish has been sent into the universe! ✨
+                You deserve all the happiness
+                in the universe! ❤️
             </p>
 
         </div>
 
-    </div>
+    </section>
 
 
-    <!-- =========================
-         GIFT POPUP
-    ========================== -->
+    <!-- SHARE -->
 
-    <div id="giftPopup"
-         class="celebration-popup">
+    <section class="share-card reveal">
 
-        <div class="celebration-popup-box">
+        <div class="share-icon">
+            🔗
+        </div>
 
-            <button class="popup-close-button"
-                    id="giftPopupClose">
-                ×
+        <h2>
+            Share BirthdayVerse
+        </h2>
+
+        <p>
+            Share this special birthday experience.
+        </p>
+
+        <div class="share-buttons">
+
+            <button onclick="copyLink()">
+                🔗 Copy Link
             </button>
 
-            <div class="popup-icon">
-                🎁
-            </div>
+            <button onclick="showQR()">
+                📱 QR Code
+            </button>
 
-            <h2>
-                Surprise! 💖
-            </h2>
-
-            <p id="giftPopupText">
-                You deserve all the happiness in the world!
-            </p>
+            <button onclick="nativeShare()">
+                📤 Share
+            </button>
 
         </div>
 
-    </div>
+        <p
+            id="shareStatus"
+            class="share-status">
+        </p>
 
+        <div
+            class="qr-container"
+            id="qrContainer">
 
-    <!-- =========================
-         LIGHTBOX
-    ========================== -->
-
-    <div id="imageLightbox"
-         class="image-lightbox">
-
-        <button id="closeLightbox">
-            ×
-        </button>
-
-        <button id="previousImage"
-                class="gallery-nav">
-            ❮
-        </button>
-
-        <img id="lightboxImage"
-             src=""
-             alt="Full Image">
-
-        <button id="nextImage"
-                class="gallery-nav">
-            ❯
-        </button>
-
-    </div>
-
-
-    <!-- =========================
-         PWA INSTALL POPUP
-    ========================== -->
-
-    <div id="installPopup"
-         class="celebration-popup">
-
-        <div class="celebration-popup-box">
-
-            <button id="installPopupClose"
-                    class="popup-close-button">
-                ×
-            </button>
-
-            <div class="popup-icon">
-                📱
-            </div>
-
-            <h2>
-                Install BirthdayVerse
-            </h2>
+            <img
+                id="qrImage"
+                alt="BirthdayVerse QR Code">
 
             <p>
-                Add BirthdayVerse to your device
-                for a beautiful app-like experience.
+                Scan to open BirthdayVerse
             </p>
-
-            <button id="confirmInstall"
-                    class="install-confirm-button">
-                Install App ✨
-            </button>
 
         </div>
 
-    </div>
+    </section>
 
 
-    <!-- =========================
-         SCRIPTS
-    ========================== -->
+    <!-- FINAL -->
 
-    <script src="script.js"></script>
+    <section class="final-section reveal">
+
+        <div class="final-cake">
+            🎂
+        </div>
+
+        <h2>
+            Happy Birthday
+        </h2>
+
+        <h1 id="finalName">
+            Birthday Star
+        </h1>
+
+        <p>
+            May your journey ahead be filled with
+            love, laughter, success and countless
+            beautiful memories.
+        </p>
+
+        <div class="final-hearts">
+            ❤️ 💖 💕 💗 ❤️
+        </div>
+
+    </section>
+
+</main>
+
+
+<canvas id="fireworksCanvas"></canvas>
+
+
+<div
+    class="image-lightbox"
+    id="imageLightbox">
+
+    <button
+        id="closeLightbox"
+        onclick="closeLightbox()">
+        ×
+    </button>
+
+    <button
+        class="gallery-nav"
+        onclick="previousImage()">
+        ‹
+    </button>
+
+    <img
+        id="lightboxImage"
+        alt="Memory">
+
+    <button
+        class="gallery-nav"
+        onclick="nextImage()">
+        ›
+    </button>
+
+</div>
+
+
+<audio
+    id="birthdayAudio"
+    preload="metadata">
+</audio>
+
+
+<script src="script.js" defer></script>
 
 </body>
-
 </html>
