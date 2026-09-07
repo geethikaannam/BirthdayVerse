@@ -1,295 +1,196 @@
 /* =========================================
-   BIRTHDAYVERSE - PART 8A
-   IndexedDB + PWA + QR + Sharing
+   BIRTHDAYVERSE SCRIPT.JS
 ========================================= */
+
+let birthdayData = {
+    name: "Birthday Star",
+    nickname: "Special One",
+    age: "",
+    sender: "Someone Special",
+    date: "",
+    message:
+        "May your birthday be filled with happiness, love, laughter and unforgettable memories."
+};
+
+let birthdayMedia = {
+    photos: [],
+    videos: [],
+    music: [],
+    voice: null
+};
+
+let currentSong = 0;
+let isPlaying = false;
+let galleryImages = [];
+let galleryIndex = 0;
 
 
 /* =========================================
-   DATA
+   LOAD DATA
 ========================================= */
 
-let birthdayData = {};
+function loadBirthdayData() {
 
-try {
+    const savedData =
+        localStorage.getItem("birthdayData");
 
-    birthdayData =
-        JSON.parse(
-            localStorage.getItem("birthdayData")
-        ) || {};
+    if (savedData) {
 
-} catch {
+        try {
 
-    birthdayData = {};
+            birthdayData = {
+                ...birthdayData,
+                ...JSON.parse(savedData)
+            };
 
-}
+        } catch (error) {
 
-
-let birthdayMedia = {};
-
-try {
-
-    birthdayMedia =
-        JSON.parse(
-            localStorage.getItem("birthdayMedia")
-        ) || {};
-
-} catch {
-
-    birthdayMedia = {};
-
-}
+            console.error(
+                "Birthday data error:",
+                error
+            );
+        }
+    }
 
 
-/* =========================================
-   DOM READY
-========================================= */
+    const savedMedia =
+        localStorage.getItem("birthdayMedia");
 
-document.addEventListener(
-    "DOMContentLoaded",
-    initializeBirthdayVerse
-);
+    if (savedMedia) {
 
+        try {
 
-/* =========================================
-   INITIALIZE
-========================================= */
+            birthdayMedia = {
+                ...birthdayMedia,
+                ...JSON.parse(savedMedia)
+            };
 
-async function initializeBirthdayVerse() {
+        } catch (error) {
 
-    setupPersonalization();
-
-    setupThemes();
-
-    createStars();
-
-    startTyping();
-
-    startCountdown();
-
-    setupCandles();
-
-    setupFireworks();
-
-    setupBalloons();
-
-    setupGallery();
-
-    setupVideos();
-
-    setupMemoryBook();
-
-    setupMusic();
-
-    setupLetter();
-
-    setupGift();
-
-    setupSharing();
-
-    setupScrollReveal();
-
-    setupPopups();
-
-    setupBackButton();
-
-    setupMusicTopButton();
-
-    setupPWA();
-
-    setupIndexedDB();
-
-    setTimeout(
-        () => createConfetti(25),
-        1000
-    );
+            console.error(
+                "Media error:",
+                error
+            );
+        }
+    }
 }
 
 
 /* =========================================
-   PERSONALIZATION
+   DISPLAY DATA
 ========================================= */
 
-function setupPersonalization() {
+function displayBirthdayData() {
 
-    const name =
-        birthdayData.personName ||
-        birthdayData.name ||
-        "Birthday Star";
-
-    const nickname =
-        birthdayData.nickname ||
-        name;
-
-    const age =
-        birthdayData.age ||
-        "";
-
-    const sender =
-        birthdayData.senderName ||
-        "Someone who loves you ❤️";
-
-    const message =
-        birthdayData.birthdayMessage ||
-        "May your birthday be filled with happiness, love and unforgettable memories. ✨";
-
-
-    const birthdayTitle =
-        document.getElementById(
-            "birthdayTitle"
-        );
-
-    const birthdaySubtitle =
-        document.getElementById(
-            "birthdaySubtitle"
-        );
-
-    const ageText =
-        document.getElementById(
-            "ageText"
-        );
-
-    const personalMessage =
-        document.getElementById(
-            "personalMessage"
-        );
-
-    const senderDisplay =
-        document.getElementById(
-            "senderDisplay"
-        );
+    const title =
+        document.getElementById("birthdayTitle");
 
     const finalName =
-        document.getElementById(
-            "finalName"
-        );
+        document.getElementById("finalName");
 
-    const memoryBookText =
-        document.getElementById(
-            "memoryBookText"
-        );
+    const message =
+        document.getElementById("personalMessage");
 
-    const memoryBookName =
-        document.getElementById(
-            "memoryBookName"
-        );
+    const sender =
+        document.getElementById("senderDisplay");
 
-    const birthdayLetterText =
-        document.getElementById(
-            "birthdayLetterText"
-        );
+    const age =
+        document.getElementById("ageText");
+
+    const letterName =
+        document.getElementById("letterName");
+
+    const letterSender =
+        document.getElementById("letterSender");
 
 
-    if (birthdayTitle) {
-
-        birthdayTitle.textContent =
-            `Happy Birthday, ${name}! 🎂`;
-
-    }
-
-
-    if (birthdaySubtitle) {
-
-        birthdaySubtitle.textContent =
-            `Today is your special day, ${nickname}. ✨`;
-
-    }
-
-
-    if (ageText) {
-
-        ageText.textContent =
-            age
-                ? `Celebrating ${age} amazing years! 🎉`
-                : "";
-
-    }
-
-
-    if (personalMessage) {
-
-        personalMessage.textContent =
-            message;
-
-    }
-
-
-    if (senderDisplay) {
-
-        senderDisplay.textContent =
-            `With love, ${sender} ❤️`;
-
+    if (title) {
+        title.textContent =
+            birthdayData.name ||
+            "Birthday Star";
     }
 
 
     if (finalName) {
-
         finalName.textContent =
-            name;
-
+            birthdayData.name ||
+            "Birthday Star";
     }
 
 
-    if (memoryBookName) {
-
-        memoryBookName.textContent =
-            name;
-
+    if (message) {
+        message.textContent =
+            birthdayData.message ||
+            "Wishing you a beautiful birthday!";
     }
 
 
-    if (memoryBookText) {
-
-        memoryBookText.textContent =
-            `${message} Every moment with you is a memory worth keeping forever. 💖`;
-
+    if (sender) {
+        sender.textContent =
+            "— " +
+            (birthdayData.sender ||
+                "Someone Special");
     }
 
 
-    if (birthdayLetterText) {
+    if (age) {
 
-        birthdayLetterText.innerHTML = `
+        if (birthdayData.age) {
 
-            <p>
-                Today is not just another day.
-                Today is a celebration of someone truly special.
-            </p>
+            age.textContent =
+                "Celebrating " +
+                birthdayData.age +
+                " wonderful years! 🎉";
 
-            <p>
-                ${escapeHTML(message)}
-            </p>
+        } else {
 
-            <p>
-                May every dream you have find its way to you,
-                and may the coming year bring you countless
-                reasons to smile.
-            </p>
-
-        `;
-
+            age.textContent = "";
+        }
     }
 
+
+    if (letterName) {
+
+        letterName.textContent =
+            birthdayData.name ||
+            "Birthday Star";
+    }
+
+
+    if (letterSender) {
+
+        letterSender.textContent =
+            birthdayData.sender ||
+            "Someone Special";
+    }
+
+
+    const letterText =
+        document.getElementById("letterText");
+
+    if (letterText) {
+
+        letterText.textContent =
+            birthdayData.message ||
+            "Wishing you the happiest birthday!";
+    }
 }
 
 
 /* =========================================
-   SAFE HTML
+   THEME
 ========================================= */
 
-function escapeHTML(text) {
+function loadTheme() {
 
-    const div =
-        document.createElement("div");
+    const theme =
+        localStorage.getItem("birthdayTheme") ||
+        "love";
 
-    div.textContent =
-        text;
-
-    return div.innerHTML;
+    document.body.className =
+        "theme-" + theme;
 }
 
-
-/* =========================================
-   THEMES
-========================================= */
 
 function setupThemes() {
 
@@ -298,30 +199,17 @@ function setupThemes() {
             ".theme-choice"
         );
 
-
     buttons.forEach(button => {
 
         button.addEventListener(
             "click",
-            () => {
+            function () {
 
                 const theme =
                     button.dataset.theme;
 
                 document.body.className =
-                    `theme-${theme}`;
-
-                buttons.forEach(
-                    btn =>
-                        btn.classList.remove(
-                            "active"
-                        )
-                );
-
-                button.classList.add(
-                    "active"
-                );
-
+                    "theme-" + theme;
 
                 localStorage.setItem(
                     "birthdayTheme",
@@ -332,171 +220,6 @@ function setupThemes() {
         );
 
     });
-
-
-    const savedTheme =
-        localStorage.getItem(
-            "birthdayTheme"
-        );
-
-
-    if (savedTheme) {
-
-        document.body.className =
-            `theme-${savedTheme}`;
-
-
-        buttons.forEach(button => {
-
-            button.classList.toggle(
-                "active",
-                button.dataset.theme ===
-                savedTheme
-            );
-
-        });
-
-    }
-
-}
-
-
-/* =========================================
-   STARS
-========================================= */
-
-function createStars() {
-
-    const container =
-        document.getElementById(
-            "stars"
-        );
-
-    if (!container) return;
-
-    container.innerHTML = "";
-
-
-    for (
-        let i = 0;
-        i < 180;
-        i++
-    ) {
-
-        const star =
-            document.createElement(
-                "div"
-            );
-
-        star.className =
-            "star";
-
-        star.style.left =
-            Math.random() * 100 + "%";
-
-        star.style.top =
-            Math.random() * 100 + "%";
-
-        star.style.animationDelay =
-            Math.random() * 3 + "s";
-
-        container.appendChild(
-            star
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   TYPING
-========================================= */
-
-function typeText(
-    element,
-    text,
-    speed = 50
-) {
-
-    if (!element) return;
-
-    element.textContent = "";
-
-    let index = 0;
-
-
-    const timer =
-        setInterval(
-            () => {
-
-                element.textContent +=
-                    text[index];
-
-                index++;
-
-
-                if (
-                    index >=
-                    text.length
-                ) {
-
-                    clearInterval(timer);
-
-                }
-
-            },
-            speed
-        );
-}
-
-
-function startTyping() {
-
-    const greeting =
-        document.getElementById(
-            "typingGreeting"
-        );
-
-    const subtitle =
-        document.getElementById(
-            "typingSubtitle"
-        );
-
-
-    const name =
-        birthdayData.personName ||
-        birthdayData.name ||
-        "Birthday Star";
-
-
-    setTimeout(
-        () => {
-
-            typeText(
-                greeting,
-                `Welcome to your BirthdayVerse, ${name} ✨`,
-                45
-            );
-
-
-            setTimeout(
-                () => {
-
-                    typeText(
-                        subtitle,
-                        "A little universe created especially for you... 💖",
-                        35
-                    );
-
-                },
-                2200
-            );
-
-        },
-        500
-    );
-
 }
 
 
@@ -506,106 +229,92 @@ function startTyping() {
 
 function startCountdown() {
 
-    const birthdayDate =
-        birthdayData.birthdayDate;
+    const date =
+        birthdayData.date;
 
-    if (!birthdayDate) return;
+    if (!date) return;
 
 
-    function update() {
+    function updateCountdown() {
 
         const now =
             new Date();
 
-        let target =
-            new Date(
-                birthdayDate
-            );
+        let birthday =
+            new Date(date + "T00:00:00");
 
 
-        if (
-            isNaN(
-                target.getTime()
-            )
-        ) return;
+        if (birthday <= now) {
 
-
-        target.setFullYear(
-            now.getFullYear()
-        );
-
-
-        if (target <= now) {
-
-            target.setFullYear(
-                now.getFullYear() + 1
-            );
-
+            birthday =
+                new Date(
+                    now.getFullYear() + 1,
+                    birthday.getMonth(),
+                    birthday.getDate()
+                );
         }
 
 
         const difference =
-            target - now;
+            birthday.getTime() -
+            now.getTime();
 
 
         const days =
             Math.floor(
                 difference /
-                86400000
+                (1000 * 60 * 60 * 24)
             );
-
 
         const hours =
             Math.floor(
-                difference /
-                3600000
-            ) % 24;
-
+                (difference /
+                    (1000 * 60 * 60)) %
+                24
+            );
 
         const minutes =
             Math.floor(
-                difference /
-                60000
-            ) % 60;
-
+                (difference /
+                    (1000 * 60)) %
+                60
+            );
 
         const seconds =
             Math.floor(
-                difference /
-                1000
-            ) % 60;
+                (difference / 1000) %
+                60
+            );
 
 
         setText(
-            "countDays",
-            String(days).padStart(2,"0")
+            "days",
+            String(days).padStart(2, "0")
         );
 
         setText(
-            "countHours",
-            String(hours).padStart(2,"0")
+            "hours",
+            String(hours).padStart(2, "0")
         );
 
         setText(
-            "countMinutes",
-            String(minutes).padStart(2,"0")
+            "minutes",
+            String(minutes).padStart(2, "0")
         );
 
         setText(
-            "countSeconds",
-            String(seconds).padStart(2,"0")
+            "seconds",
+            String(seconds).padStart(2, "0")
         );
-
     }
 
 
-    update();
+    updateCountdown();
 
     setInterval(
-        update,
+        updateCountdown,
         1000
     );
-
 }
 
 
@@ -613,21 +322,398 @@ function startCountdown() {
    HELPER
 ========================================= */
 
-function setText(
-    id,
-    value
-) {
+function setText(id, value) {
 
     const element =
         document.getElementById(id);
 
     if (element) {
+        element.textContent = value;
+    }
+}
 
-        element.textContent =
-            value;
 
+/* =========================================
+   PHOTOS
+========================================= */
+
+function displayPhotos() {
+
+    const gallery =
+        document.getElementById(
+            "photoGallery"
+        );
+
+    if (!gallery) return;
+
+    gallery.innerHTML = "";
+
+    galleryImages = [];
+
+
+    if (
+        !birthdayMedia.photos ||
+        birthdayMedia.photos.length === 0
+    ) {
+
+        gallery.innerHTML =
+            '<div class="empty-gallery">' +
+            '📸 No photos added yet.' +
+            '</div>';
+
+        return;
     }
 
+
+    birthdayMedia.photos.forEach(
+        function (photo, index) {
+
+            galleryImages.push(
+                photo.src
+            );
+
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "photo-item";
+
+
+            const img =
+                document.createElement("img");
+
+            img.src =
+                photo.src;
+
+            img.alt =
+                "Memory " + (index + 1);
+
+
+            img.addEventListener(
+                "click",
+                function () {
+
+                    openLightbox(index);
+
+                }
+            );
+
+
+            item.appendChild(img);
+
+            gallery.appendChild(item);
+
+        }
+    );
+}
+
+
+/* =========================================
+   VIDEO
+========================================= */
+
+function displayVideos() {
+
+    const gallery =
+        document.getElementById(
+            "videoGallery"
+        );
+
+    if (!gallery) return;
+
+    gallery.innerHTML = "";
+
+
+    if (
+        !birthdayMedia.videos ||
+        birthdayMedia.videos.length === 0
+    ) {
+
+        gallery.innerHTML =
+            '<div class="empty-gallery">' +
+            '🎥 No video added yet.' +
+            '</div>';
+
+        return;
+    }
+
+
+    birthdayMedia.videos.forEach(
+        function (video) {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "video-item";
+
+
+            const player =
+                document.createElement("video");
+
+            player.src =
+                video.src;
+
+            player.controls = true;
+
+            player.playsInline = true;
+
+
+            item.appendChild(player);
+
+            gallery.appendChild(item);
+
+        }
+    );
+}
+
+
+/* =========================================
+   MUSIC
+========================================= */
+
+function displayMusic() {
+
+    if (
+        !birthdayMedia.music ||
+        birthdayMedia.music.length === 0
+    ) {
+
+        return;
+    }
+
+
+    const title =
+        document.getElementById(
+            "songTitle"
+        );
+
+    if (title) {
+
+        title.textContent =
+            birthdayMedia.music[0].name;
+    }
+}
+
+
+function toggleMusic() {
+
+    const audio =
+        document.getElementById(
+            "birthdayAudio"
+        );
+
+    if (
+        !birthdayMedia.music ||
+        birthdayMedia.music.length === 0
+    ) {
+
+        setShareStatus(
+            "🎵 Add music from Customize first."
+        );
+
+        return;
+    }
+
+
+    const song =
+        birthdayMedia.music[currentSong];
+
+
+    if (
+        audio.src !==
+        new URL(
+            song.src,
+            window.location.href
+        ).href
+    ) {
+
+        audio.src =
+            song.src;
+    }
+
+
+    if (audio.paused) {
+
+        audio.play()
+            .then(function () {
+
+                isPlaying = true;
+
+                updateMusicUI();
+
+            })
+            .catch(function (error) {
+
+                console.error(
+                    "Music playback error:",
+                    error
+                );
+
+            });
+
+    } else {
+
+        audio.pause();
+
+        isPlaying = false;
+
+        updateMusicUI();
+    }
+}
+
+
+function updateMusicUI() {
+
+    const disc =
+        document.getElementById(
+            "musicDisc"
+        );
+
+    if (!disc) return;
+
+
+    if (isPlaying) {
+
+        disc.classList.add(
+            "playing"
+        );
+
+    } else {
+
+        disc.classList.remove(
+            "playing"
+        );
+    }
+}
+
+
+function nextSong() {
+
+    if (
+        !birthdayMedia.music ||
+        birthdayMedia.music.length === 0
+    ) return;
+
+
+    currentSong++;
+
+    if (
+        currentSong >=
+        birthdayMedia.music.length
+    ) {
+
+        currentSong = 0;
+    }
+
+
+    playCurrentSong();
+}
+
+
+function previousSong() {
+
+    if (
+        !birthdayMedia.music ||
+        birthdayMedia.music.length === 0
+    ) return;
+
+
+    currentSong--;
+
+    if (currentSong < 0) {
+
+        currentSong =
+            birthdayMedia.music.length - 1;
+    }
+
+
+    playCurrentSong();
+}
+
+
+function playCurrentSong() {
+
+    const audio =
+        document.getElementById(
+            "birthdayAudio"
+        );
+
+    const title =
+        document.getElementById(
+            "songTitle"
+        );
+
+
+    const song =
+        birthdayMedia.music[currentSong];
+
+
+    audio.src =
+        song.src;
+
+
+    if (title) {
+
+        title.textContent =
+            song.name;
+    }
+
+
+    audio.play()
+        .then(function () {
+
+            isPlaying = true;
+
+            updateMusicUI();
+
+        })
+        .catch(function () {});
+}
+
+
+/* =========================================
+   VOICE
+========================================= */
+
+function displayVoice() {
+
+    if (!birthdayMedia.voice) return;
+
+    const section =
+        document.querySelector(
+            ".music-player"
+        );
+
+    if (!section) return;
+
+    const existing =
+        document.getElementById(
+            "voiceWishPlayer"
+        );
+
+    if (existing) return;
+
+
+    const audio =
+        document.createElement("audio");
+
+    audio.id =
+        "voiceWishPlayer";
+
+    audio.src =
+        birthdayMedia.voice.src;
+
+    audio.controls = true;
+
+    audio.style.width =
+        "100%";
+
+
+    section.parentNode.appendChild(
+        audio
+    );
 }
 
 
@@ -635,12 +721,7 @@ function setText(
    CANDLES
 ========================================= */
 
-function setupCandles() {
-
-    const button =
-        document.getElementById(
-            "blowButton"
-        );
+function blowCandles() {
 
     const candles =
         document.querySelectorAll(
@@ -648,48 +729,168 @@ function setupCandles() {
         );
 
 
-    if (!button) return;
+    candles.forEach(
+        function (candle) {
 
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            candles.forEach(
-                candle =>
-                    candle.classList.add(
-                        "blown"
-                    )
+            candle.classList.add(
+                "blown"
             );
-
-
-            setText(
-                "wishMessage",
-                "✨ Your wish has been sent into the universe! ✨"
-            );
-
-
-            createConfetti(100);
-
-            launchFireworks();
-
-
-            const popup =
-                document.getElementById(
-                    "celebrationPopup"
-                );
-
-            if (popup) {
-
-                popup.classList.add(
-                    "active"
-                );
-
-            }
 
         }
     );
 
+
+    const wish =
+        document.getElementById(
+            "wishResult"
+        );
+
+
+    if (wish) {
+
+        wish.textContent =
+            "✨ Wish made! May it come true! 💖";
+
+    }
+
+
+    createConfetti();
+}
+
+
+/* =========================================
+   FIREWORKS
+========================================= */
+
+function startFireworks() {
+
+    const canvas =
+        document.getElementById(
+            "fireworksCanvas"
+        );
+
+    if (!canvas) return;
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    canvas.width =
+        window.innerWidth;
+
+    canvas.height =
+        window.innerHeight;
+
+
+    const particles = [];
+
+
+    for (
+        let i = 0;
+        i < 160;
+        i++
+    ) {
+
+        const angle =
+            Math.random() *
+            Math.PI *
+            2;
+
+        const speed =
+            Math.random() * 7 + 2;
+
+
+        particles.push({
+
+            x:
+                canvas.width / 2,
+
+            y:
+                canvas.height / 2,
+
+            vx:
+                Math.cos(angle) *
+                speed,
+
+            vy:
+                Math.sin(angle) *
+                speed,
+
+            life:
+                80 +
+                Math.random() * 40
+        });
+    }
+
+
+    function animate() {
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+
+        particles.forEach(
+            function (particle) {
+
+                particle.x +=
+                    particle.vx;
+
+                particle.y +=
+                    particle.vy;
+
+                particle.vy +=
+                    0.04;
+
+                particle.life--;
+
+
+                ctx.globalAlpha =
+                    particle.life / 120;
+
+                ctx.fillStyle =
+                    "white";
+
+                ctx.fillRect(
+                    particle.x,
+                    particle.y,
+                    4,
+                    4
+                );
+
+            }
+        );
+
+
+        if (
+            particles.some(
+                p => p.life > 0
+            )
+        ) {
+
+            requestAnimationFrame(
+                animate
+            );
+
+        } else {
+
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+        }
+    }
+
+
+    animate();
+
+    createConfetti();
 }
 
 
@@ -697,21 +898,11 @@ function setupCandles() {
    CONFETTI
 ========================================= */
 
-function createConfetti(
-    amount = 60
-) {
-
-    const container =
-        document.getElementById(
-            "confettiContainer"
-        );
-
-    if (!container) return;
-
+function createConfetti() {
 
     for (
         let i = 0;
-        i < amount;
+        i < 80;
         i++
     ) {
 
@@ -725,509 +916,195 @@ function createConfetti(
 
 
         piece.style.left =
-            Math.random() * 100 +
-            "vw";
-
+            Math.random() * 100 + "vw";
 
         piece.style.top =
             "-20px";
 
 
-        piece.style.background =
-            `hsl(${Math.random()*360},90%,65%)`;
-
-
-        piece.style.animationDuration =
-            2 +
-            Math.random() * 3 +
-            "s";
+        piece.style.transform =
+            "rotate(" +
+            Math.random() * 360 +
+            "deg)";
 
 
         piece.style.animationDelay =
-            Math.random() +
+            Math.random() * 1.5 +
             "s";
 
 
-        container.appendChild(
+        document.body.appendChild(
             piece
         );
 
 
         setTimeout(
-            () => piece.remove(),
-            5000
+            function () {
+
+                piece.remove();
+
+            },
+            4500
         );
-
     }
-
 }
 
 
 /* =========================================
-   FIREWORKS
+   BALLOON
 ========================================= */
 
-let fireworks = [];
+function createBalloon() {
 
-
-function setupFireworks() {
-
-    const canvas =
-        document.getElementById(
-            "fireworksCanvas"
+    const balloon =
+        document.createElement(
+            "div"
         );
 
-    if (!canvas) return;
+    balloon.className =
+        "interactive-balloon";
 
 
-    const ctx =
-        canvas.getContext(
-            "2d"
-        );
+    balloon.style.left =
+        Math.random() * 90 +
+        "vw";
 
 
-    function resize() {
-
-        canvas.width =
-            window.innerWidth;
-
-        canvas.height =
-            window.innerHeight;
-
-    }
+    balloon.style.background =
+        "hsl(" +
+        Math.random() * 360 +
+        ", 80%, 60%)";
 
 
-    resize();
+    balloon.addEventListener(
+        "click",
+        function () {
 
-
-    window.addEventListener(
-        "resize",
-        resize
-    );
-
-
-    function animate() {
-
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-
-        fireworks =
-            fireworks.filter(
-                particle =>
-                    particle.life > 0
+            balloon.classList.add(
+                "popped"
             );
 
+            createConfetti();
 
-        fireworks.forEach(
-            particle => {
+            setTimeout(
+                function () {
 
-                particle.x +=
-                    particle.vx;
+                    balloon.remove();
 
-                particle.y +=
-                    particle.vy;
-
-                particle.vy +=
-                    .05;
-
-                particle.life--;
-
-
-                ctx.globalAlpha =
-                    particle.life /
-                    100;
-
-                ctx.fillStyle =
-                    particle.color;
-
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    particle.x,
-                    particle.y,
-                    3,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-
-            }
-        );
-
-
-        ctx.globalAlpha = 1;
-
-
-        requestAnimationFrame(
-            animate
-        );
-
-    }
-
-
-    animate();
-
-
-    const button =
-        document.getElementById(
-            "fireworksButton"
-        );
-
-
-    if (button) {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                for (
-                    let i = 0;
-                    i < 5;
-                    i++
-                ) {
-
-                    setTimeout(
-                        launchFireworks,
-                        i * 500
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-}
-
-
-function createFirework(
-    x,
-    y
-) {
-
-    for (
-        let i = 0;
-        i < 45;
-        i++
-    ) {
-
-        const angle =
-            Math.random() *
-            Math.PI * 2;
-
-        const speed =
-            Math.random() * 6 + 2;
-
-
-        fireworks.push({
-
-            x,
-            y,
-
-            vx:
-                Math.cos(angle) *
-                speed,
-
-            vy:
-                Math.sin(angle) *
-                speed,
-
-            life: 100,
-
-            color:
-                `hsl(${Math.random()*360},100%,65%)`
-
-        });
-
-    }
-
-}
-
-
-function launchFireworks() {
-
-    const canvas =
-        document.getElementById(
-            "fireworksCanvas"
-        );
-
-    if (!canvas) return;
-
-
-    createFirework(
-        Math.random() *
-            canvas.width,
-
-        150 +
-            Math.random() *
-            250
-    );
-
-}
-
-
-/* =========================================
-   BALLOONS
-========================================= */
-
-function setupBalloons() {
-
-    let score = 0;
-
-    const container =
-        document.getElementById(
-            "balloons"
-        );
-
-
-    if (!container) return;
-
-
-    function createBalloon() {
-
-        const balloon =
-            document.createElement(
-                "div"
-            );
-
-
-        balloon.className =
-            "interactive-balloon";
-
-
-        balloon.style.left =
-            Math.random() *
-            90 +
-            "vw";
-
-
-        balloon.style.background =
-            `hsl(${Math.random()*360},80%,60%)`;
-
-
-        balloon.addEventListener(
-            "click",
-            () => {
-
-                balloon.classList.add(
-                    "popped"
-                );
-
-
-                score++;
-
-
-                setText(
-                    "balloonScore",
-                    score
-                );
-
-
-                createConfetti(10);
-
-
-                setTimeout(
-                    () =>
-                        balloon.remove(),
-                    250
-                );
-
-            }
-        );
-
-
-        container.appendChild(
-            balloon
-        );
-
-
-        setTimeout(
-            () =>
-                balloon.remove(),
-            6000
-        );
-
-    }
-
-
-    setInterval(
-        createBalloon,
-        1800
-    );
-
-}
-
-
-/* =========================================
-   PHOTO GALLERY
-========================================= */
-
-let galleryImages = [];
-
-let currentImage = 0;
-
-
-function getPhotoSource(item) {
-
-    if (!item) return "";
-
-
-    if (
-        typeof item ===
-        "string"
-    ) {
-
-        if (
-            item.startsWith(
-                "data:image"
-            ) ||
-            item.startsWith(
-                "blob:"
-            ) ||
-            item.startsWith(
-                "http"
-            )
-        ) {
-
-            return item;
-
-        }
-
-
-        return "";
-
-    }
-
-
-    return (
-        item.preview ||
-        item.dataUrl ||
-        item.url ||
-        item.src ||
-        ""
-    );
-
-}
-
-
-function setupGallery() {
-
-    const gallery =
-        document.getElementById(
-            "photoGallery"
-        );
-
-    const empty =
-        document.getElementById(
-            "emptyGallery"
-        );
-
-
-    if (!gallery) return;
-
-
-    gallery.innerHTML = "";
-
-    galleryImages = [];
-
-
-    let photos =
-        birthdayMedia.photos ||
-        birthdayMedia.photo ||
-        [];
-
-
-    if (!Array.isArray(photos)) {
-
-        photos = [];
-
-    }
-
-
-    photos.forEach(
-        item => {
-
-            const source =
-                getPhotoSource(item);
-
-
-            if (!source) return;
-
-
-            galleryImages.push(
-                source
-            );
-
-
-            const wrapper =
-                document.createElement(
-                    "div"
-                );
-
-            wrapper.className =
-                "photo-item";
-
-
-            const image =
-                document.createElement(
-                    "img"
-                );
-
-
-            image.src =
-                source;
-
-            image.alt =
-                "Birthday memory";
-
-
-            image.addEventListener(
-                "click",
-                () => {
-
-                    currentImage =
-                        galleryImages.indexOf(
-                            source
-                        );
-
-                    openLightbox();
-
-                }
-            );
-
-
-            wrapper.appendChild(
-                image
-            );
-
-            gallery.appendChild(
-                wrapper
+                },
+                300
             );
 
         }
     );
 
 
-    if (empty) {
+    document.body.appendChild(
+        balloon
+    );
 
-        empty.style.display =
-            galleryImages.length
-                ? "none"
-                : "block";
 
+    setTimeout(
+        function () {
+
+            balloon.remove();
+
+        },
+        6500
+    );
+}
+
+
+/* =========================================
+   MEMORY BOOK
+========================================= */
+
+function openMemoryBook() {
+
+    const book =
+        document.querySelector(
+            ".memory-book"
+        );
+
+    if (book) {
+
+        book.classList.add(
+            "open"
+        );
+    }
+}
+
+
+function closeMemoryBook() {
+
+    const book =
+        document.querySelector(
+            ".memory-book"
+        );
+
+    if (book) {
+
+        book.classList.remove(
+            "open"
+        );
+    }
+}
+
+
+/* =========================================
+   LETTER
+========================================= */
+
+function openLetter() {
+
+    const letter =
+        document.querySelector(
+            ".birthday-letter"
+        );
+
+    if (letter) {
+
+        letter.classList.add(
+            "opened"
+        );
+    }
+}
+
+
+/* =========================================
+   GIFT
+========================================= */
+
+function openGift() {
+
+    const box =
+        document.getElementById(
+            "giftBox"
+        );
+
+    const message =
+        document.getElementById(
+            "giftMessage"
+        );
+
+
+    if (box) {
+
+        box.classList.toggle(
+            "open"
+        );
     }
 
 
-    updateMemoryPhoto();
+    if (message) {
 
+        message.classList.add(
+            "show"
+        );
+    }
+
+
+    createConfetti();
 }
 
 
@@ -1235,10 +1112,14 @@ function setupGallery() {
    LIGHTBOX
 ========================================= */
 
-function openLightbox() {
+function openLightbox(index) {
 
     if (!galleryImages.length)
         return;
+
+
+    galleryIndex =
+        index;
 
 
     const lightbox =
@@ -1253,15 +1134,12 @@ function openLightbox() {
 
 
     image.src =
-        galleryImages[
-            currentImage
-        ];
+        galleryImages[galleryIndex];
 
 
     lightbox.classList.add(
         "active"
     );
-
 }
 
 
@@ -1272,1192 +1150,83 @@ function closeLightbox() {
             "imageLightbox"
         );
 
-
     lightbox.classList.remove(
         "active"
     );
-
 }
 
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+function nextImage() {
 
-        const close =
-            document.getElementById(
-                "closeLightbox"
-            );
-
-
-        const previous =
-            document.getElementById(
-                "previousImage"
-            );
-
-
-        const next =
-            document.getElementById(
-                "nextImage"
-            );
-
-
-        if (close) {
-
-            close.addEventListener(
-                "click",
-                closeLightbox
-            );
-
-        }
-
-
-        if (previous) {
-
-            previous.addEventListener(
-                "click",
-                () => {
-
-                    if (
-                        !galleryImages.length
-                    )
-                        return;
-
-
-                    currentImage--;
-
-                    if (
-                        currentImage < 0
-                    ) {
-
-                        currentImage =
-                            galleryImages.length -
-                            1;
-
-                    }
-
-
-                    openLightbox();
-
-                }
-            );
-
-        }
-
-
-        if (next) {
-
-            next.addEventListener(
-                "click",
-                () => {
-
-                    if (
-                        !galleryImages.length
-                    )
-                        return;
-
-
-                    currentImage++;
-
-
-                    if (
-                        currentImage >=
-                        galleryImages.length
-                    ) {
-
-                        currentImage = 0;
-
-                    }
-
-
-                    openLightbox();
-
-                }
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================
-   VIDEOS
-========================================= */
-
-function getVideoSource(item) {
-
-    if (!item) return "";
-
-
-    if (
-        typeof item ===
-        "string"
-    ) {
-
-        if (
-            item.startsWith("blob:") ||
-            item.startsWith("data:video") ||
-            item.startsWith("http")
-        ) {
-
-            return item;
-
-        }
-
-
-        return "";
-
-    }
-
-
-    return (
-        item.preview ||
-        item.dataUrl ||
-        item.url ||
-        item.src ||
-        ""
-    );
-
-}
-
-
-function setupVideos() {
-
-    const gallery =
-        document.getElementById(
-            "videoGallery"
-        );
-
-    const empty =
-        document.getElementById(
-            "emptyVideo"
-        );
-
-
-    if (!gallery) return;
-
-
-    gallery.innerHTML = "";
-
-
-    let videos =
-        birthdayMedia.videos ||
-        birthdayMedia.video ||
-        [];
-
-
-    if (!Array.isArray(videos)) {
-
-        videos = [];
-
-    }
-
-
-    let count = 0;
-
-
-    videos.forEach(
-        item => {
-
-            const source =
-                getVideoSource(item);
-
-
-            if (!source) return;
-
-
-            count++;
-
-
-            const wrapper =
-                document.createElement(
-                    "div"
-                );
-
-
-            wrapper.className =
-                "video-item";
-
-
-            const video =
-                document.createElement(
-                    "video"
-                );
-
-
-            video.src =
-                source;
-
-            video.controls =
-                true;
-
-
-            wrapper.appendChild(
-                video
-            );
-
-
-            gallery.appendChild(
-                wrapper
-            );
-
-        }
-    );
-
-
-    if (empty) {
-
-        empty.style.display =
-            count
-                ? "none"
-                : "block";
-
-    }
-
-}
-
-
-/* =========================================
-   MEMORY BOOK
-========================================= */
-
-function setupMemoryBook() {
-
-    const book =
-        document.getElementById(
-            "memoryBook"
-        );
-
-
-    const openButton =
-        document.getElementById(
-            "openMemoryBook"
-        );
-
-
-    const closeButton =
-        document.getElementById(
-            "closeMemoryBook"
-        );
-
-
-    const pages =
-        document.querySelectorAll(
-            ".memory-page"
-        );
-
-
-    let currentPage = 0;
-
-
-    if (
-        !book ||
-        !openButton ||
-        !closeButton
-    )
+    if (!galleryImages.length)
         return;
 
 
-    openButton.addEventListener(
-        "click",
-        () => {
-
-            book.classList.add(
-                "open"
-            );
-
-        }
-    );
+    galleryIndex =
+        (galleryIndex + 1) %
+        galleryImages.length;
 
 
-    closeButton.addEventListener(
-        "click",
-        () => {
-
-            book.classList.remove(
-                "open"
-            );
-
-        }
-    );
-
-
-    function showPage(index) {
-
-        if (
-            index < 0
-        ) {
-
-            index =
-                pages.length - 1;
-
-        }
-
-
-        if (
-            index >=
-            pages.length
-        ) {
-
-            index = 0;
-
-        }
-
-
-        currentPage =
-            index;
-
-
-        pages.forEach(
-            page =>
-                page.classList.remove(
-                    "active"
-                )
-        );
-
-
-        pages[
-            currentPage
-        ].classList.add(
-            "active"
-        );
-
-    }
-
-
-    const pageArea =
-        document.querySelector(
-            ".memory-pages"
-        );
-
-
-    if (pageArea) {
-
-        pageArea.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target.closest(
-                        "#closeMemoryBook"
-                    )
-                )
-                    return;
-
-
-                const rect =
-                    pageArea.getBoundingClientRect();
-
-
-                if (
-                    event.clientX -
-                    rect.left <
-                    rect.width / 2
-                ) {
-
-                    showPage(
-                        currentPage - 1
-                    );
-
-                } else {
-
-                    showPage(
-                        currentPage + 1
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
+    document.getElementById(
+        "lightboxImage"
+    ).src =
+        galleryImages[galleryIndex];
 }
 
 
-/* =========================================
-   MEMORY PHOTO
-========================================= */
+function previousImage() {
 
-function updateMemoryPhoto() {
-
-    const image =
-        document.getElementById(
-            "memoryPhotoPreview"
-        );
-
-
-    if (!image) return;
-
-
-    if (galleryImages.length) {
-
-        image.src =
-            galleryImages[0];
-
-        image.style.display =
-            "block";
-
-    } else {
-
-        image.style.display =
-            "none";
-
-    }
-
-}
-
-
-/* =========================================
-   MUSIC
-========================================= */
-
-let playlist = [];
-
-let currentSong = 0;
-
-let audio;
-
-
-function setupMusic() {
-
-    audio =
-        document.getElementById(
-            "birthdayAudio"
-        );
-
-
-    if (!audio) return;
-
-
-    const playButton =
-        document.getElementById(
-            "playMusicButton"
-        );
-
-
-    const previous =
-        document.getElementById(
-            "previousSong"
-        );
-
-
-    const next =
-        document.getElementById(
-            "nextSong"
-        );
-
-
-    let musicFiles =
-        birthdayMedia.music ||
-        birthdayMedia.musics ||
-        birthdayMedia.songs ||
-        [];
-
-
-    if (!Array.isArray(musicFiles)) {
-
-        musicFiles = [];
-
-    }
-
-
-    musicFiles.forEach(
-        (item,index) => {
-
-            const source =
-                getMusicSource(item);
-
-
-            if (source) {
-
-                playlist.push({
-
-                    source,
-
-                    name:
-                        getMusicName(
-                            item,
-                            index
-                        )
-
-                });
-
-            }
-
-        }
-    );
-
-
-    if (
-        playlist.length
-    ) {
-
-        loadSong(0);
-
-    } else {
-
-        setText(
-            "musicTitle",
-            "Add your birthday songs 🎵"
-        );
-
-        setText(
-            "songCounter",
-            "0 / 0"
-        );
-
-    }
-
-
-    if (playButton) {
-
-        playButton.addEventListener(
-            "click",
-            () => {
-
-                if (!playlist.length) {
-
-                    alert(
-                        "Please add music from the customization page. 🎵"
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    audio.paused
-                ) {
-
-                    playSong();
-
-                } else {
-
-                    pauseSong();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (previous) {
-
-        previous.addEventListener(
-            "click",
-            () => {
-
-                if (
-                    !playlist.length
-                )
-                    return;
-
-
-                loadSong(
-                    currentSong - 1
-                );
-
-                playSong();
-
-            }
-        );
-
-    }
-
-
-    if (next) {
-
-        next.addEventListener(
-            "click",
-            () => {
-
-                if (
-                    !playlist.length
-                )
-                    return;
-
-
-                loadSong(
-                    currentSong + 1
-                );
-
-                playSong();
-
-            }
-        );
-
-    }
-
-
-    audio.addEventListener(
-        "ended",
-        () => {
-
-            loadSong(
-                currentSong + 1
-            );
-
-            playSong();
-
-        }
-    );
-
-
-    audio.addEventListener(
-        "timeupdate",
-        updateMusicUI
-    );
-
-}
-
-
-function getMusicSource(item) {
-
-    if (!item) return "";
-
-
-    if (
-        typeof item ===
-        "string"
-    ) {
-
-        if (
-            item.startsWith("blob:") ||
-            item.startsWith("data:audio") ||
-            item.startsWith("http")
-        ) {
-
-            return item;
-
-        }
-
-
-        return "";
-
-    }
-
-
-    return (
-        item.preview ||
-        item.dataUrl ||
-        item.url ||
-        item.src ||
-        ""
-    );
-
-}
-
-
-function getMusicName(
-    item,
-    index
-) {
-
-    if (
-        typeof item ===
-        "string"
-    ) {
-
-        return (
-            `Birthday Song ${index + 1}`
-        );
-
-    }
-
-
-    return (
-        item.name ||
-        `Birthday Song ${index + 1}`
-    );
-
-}
-
-
-function loadSong(index) {
-
-    if (!playlist.length)
+    if (!galleryImages.length)
         return;
 
 
-    currentSong =
-        (
-            index +
-            playlist.length
-        ) %
-        playlist.length;
+    galleryIndex--;
+
+    if (galleryIndex < 0) {
+
+        galleryIndex =
+            galleryImages.length - 1;
+    }
 
 
-    const song =
-        playlist[
-            currentSong
-        ];
-
-
-    audio.src =
-        song.source;
-
-
-    setText(
-        "musicTitle",
-        song.name
-    );
-
-
-    setText(
-        "songCounter",
-        `${currentSong + 1} / ${playlist.length}`
-    );
-
-
-    audio.load();
-
+    document.getElementById(
+        "lightboxImage"
+    ).src =
+        galleryImages[galleryIndex];
 }
 
 
-function playSong() {
+/* =========================================
+   SHARE
+========================================= */
 
-    audio.play()
-        .then(
-            () => {
+function copyLink() {
 
-                setText(
-                    "playMusicButton",
-                    "❚❚"
-                );
-
-
-                const disc =
-                    document.getElementById(
-                        "musicDisc"
-                    );
-
-
-                disc.classList.add(
-                    "playing"
-                );
-
-            }
-        )
-        .catch(
-            () => {
-
-                alert(
-                    "Please add music again from the customization page. 🎵"
-                );
-
-            }
-        );
-
-}
-
-
-function pauseSong() {
-
-    audio.pause();
-
-
-    setText(
-        "playMusicButton",
-        "▶"
-    );
-
-
-    const disc =
-        document.getElementById(
-            "musicDisc"
-        );
-
-
-    disc.classList.remove(
-        "playing"
-    );
-
-}
-
-
-function updateMusicUI() {
-
-    if (
-        !audio ||
-        !audio.duration
+    navigator.clipboard.writeText(
+        window.location.href
     )
-        return;
+    .then(function () {
 
-
-    const percentage =
-        (
-            audio.currentTime /
-            audio.duration
-        ) * 100;
-
-
-    const progress =
-        document.getElementById(
-            "musicProgress"
+        setShareStatus(
+            "✅ Link copied!"
         );
 
+    })
+    .catch(function () {
 
-    if (progress) {
-
-        progress.style.width =
-            percentage + "%";
-
-    }
-
-
-    setText(
-        "currentTime",
-        formatTime(
-            audio.currentTime
-        )
-    );
-
-
-    setText(
-        "duration",
-        formatTime(
-            audio.duration
-        )
-    );
-
+        setShareStatus(
+            "Copy the link from your browser."
+        );
+    });
 }
 
 
-function formatTime(seconds) {
-
-    if (
-        isNaN(seconds)
-    )
-        return "0:00";
-
-
-    const minutes =
-        Math.floor(
-            seconds / 60
-        );
-
-
-    const secs =
-        Math.floor(
-            seconds % 60
-        );
-
-
-    return (
-        `${minutes}:${String(secs).padStart(2,"0")}`
-    );
-
-}
-
-
-/* =========================================
-   LETTER
-========================================= */
-
-function setupLetter() {
-
-    const button =
-        document.getElementById(
-            "openLetter"
-        );
-
-
-    const letter =
-        document.querySelector(
-            ".birthday-letter"
-        );
-
-
-    if (
-        !button ||
-        !letter
-    )
-        return;
-
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            letter.classList.add(
-                "opened"
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   GIFT
-========================================= */
-
-function setupGift() {
-
-    const gift =
-        document.getElementById(
-            "giftBox"
-        );
-
-
-    const message =
-        document.getElementById(
-            "giftMessage"
-        );
-
-
-    const hint =
-        document.getElementById(
-            "giftHint"
-        );
-
-
-    if (!gift) return;
-
-
-    gift.addEventListener(
-        "click",
-        () => {
-
-            gift.classList.toggle(
-                "open"
-            );
-
-
-            const opened =
-                gift.classList.contains(
-                    "open"
-                );
-
-
-            if (opened) {
-
-                message.classList.add(
-                    "show"
-                );
-
-
-                hint.textContent =
-                    "🎉 Surprise unlocked!";
-
-
-                document
-                    .getElementById(
-                        "giftPopup"
-                    )
-                    .classList.add(
-                        "active"
-                    );
-
-
-                createConfetti(80);
-
-                launchFireworks();
-
-            } else {
-
-                message.classList.remove(
-                    "show"
-                );
-
-
-                hint.textContent =
-                    "🎁 Tap the gift to open it";
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   SHARING
-========================================= */
-
-function setupSharing() {
-
-    const shareButton =
-        document.getElementById(
-            "shareButton"
-        );
-
-
-    const whatsappButton =
-        document.getElementById(
-            "whatsappButton"
-        );
-
-
-    const copyButton =
-        document.getElementById(
-            "copyLinkButton"
-        );
-
-
-    const qrButton =
-        document.getElementById(
-            "qrButton"
-        );
-
-
-    const name =
-        birthdayData.personName ||
-        birthdayData.name ||
-        "Birthday Star";
-
-
-    const shareText =
-        `🎂 Check out this special BirthdayVerse celebration for ${name}! ✨`;
-
-
-    if (shareButton) {
-
-        shareButton.addEventListener(
-            "click",
-            async () => {
-
-                if (
-                    navigator.share
-                ) {
-
-                    try {
-
-                        await navigator.share({
-
-                            title:
-                                `BirthdayVerse - ${name}`,
-
-                            text:
-                                shareText,
-
-                            url:
-                                window.location.href
-
-                        });
-
-                    } catch {
-
-                        // User cancelled sharing.
-
-                    }
-
-                } else {
-
-                    copyLink();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (whatsappButton) {
-
-        whatsappButton.addEventListener(
-            "click",
-            () => {
-
-                const url =
-                    `https://wa.me/?text=${encodeURIComponent(
-                        shareText +
-                        "\n" +
-                        window.location.href
-                    )}`;
-
-
-                window.open(
-                    url,
-                    "_blank"
-                );
-
-            }
-        );
-
-    }
-
-
-    if (copyButton) {
-
-        copyButton.addEventListener(
-            "click",
-            copyLink
-        );
-
-    }
-
-
-    if (qrButton) {
-
-        qrButton.addEventListener(
-            "click",
-            generateQRCode
-        );
-
-    }
-
-}
-
-
-async function copyLink() {
-
-    const status =
-        document.getElementById(
-            "shareStatus"
-        );
-
-
-    try {
-
-        await navigator.clipboard.writeText(
-            window.location.href
-        );
-
-
-        status.textContent =
-            "✅ Birthday link copied!";
-
-    } catch {
-
-        status.textContent =
-            "Please copy the page URL manually.";
-
-    }
-
-
-    setTimeout(
-        () => {
-
-            status.textContent =
-                "";
-
-        },
-        3000
-    );
-
-}
-
-
-/* =========================================
-   QR CODE
-========================================= */
-
-function generateQRCode() {
+function showQR() {
 
     const container =
         document.getElementById(
             "qrContainer"
         );
-
 
     const image =
         document.getElementById(
@@ -2465,32 +1234,89 @@ function generateQRCode() {
         );
 
 
-    if (!container || !image)
-        return;
-
-
-    const encoded =
+    const url =
         encodeURIComponent(
             window.location.href
         );
 
 
     image.src =
-        `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encoded}`;
+        "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+        url;
 
 
     container.classList.add(
         "show"
     );
+}
 
+
+function nativeShare() {
+
+    if (
+        navigator.share
+    ) {
+
+        navigator.share({
+
+            title:
+                "BirthdayVerse 🎂",
+
+            text:
+                "A special birthday celebration!",
+
+            url:
+                window.location.href
+
+        });
+
+    } else {
+
+        copyLink();
+    }
+}
+
+
+function setShareStatus(message) {
+
+    const status =
+        document.getElementById(
+            "shareStatus"
+        );
+
+    if (!status) return;
+
+    status.textContent =
+        message;
+
+
+    setTimeout(
+        function () {
+
+            status.textContent = "";
+
+        },
+        3000
+    );
 }
 
 
 /* =========================================
-   SCROLL REVEAL
+   BACK
 ========================================= */
 
-function setupScrollReveal() {
+function goBack() {
+
+    window.location.href =
+        "customize.html";
+}
+
+
+/* =========================================
+   REVEAL ANIMATION
+========================================= */
+
+function setupReveal() {
 
     const elements =
         document.querySelectorAll(
@@ -2498,39 +1324,20 @@ function setupScrollReveal() {
         );
 
 
-    if (
-        !("IntersectionObserver"
-            in window)
-    ) {
-
-        elements.forEach(
-            element =>
-                element.classList.add(
-                    "visible"
-                )
-        );
-
-        return;
-
-    }
-
-
     const observer =
         new IntersectionObserver(
-            entries => {
+            function (entries) {
 
                 entries.forEach(
-                    entry => {
+                    function (entry) {
 
                         if (
                             entry.isIntersecting
                         ) {
 
-                            entry.target
-                                .classList
-                                .add(
-                                    "visible"
-                                );
+                            entry.target.classList.add(
+                                "visible"
+                            );
 
                         }
 
@@ -2539,705 +1346,53 @@ function setupScrollReveal() {
 
             },
             {
-                threshold:
-                    0.12
+                threshold: 0.12
             }
         );
 
 
     elements.forEach(
         element =>
-            observer.observe(
-                element
-            )
+            observer.observe(element)
     );
-
 }
 
 
 /* =========================================
-   POPUPS
-========================================= */
-
-function setupPopups() {
-
-    const popupClose =
-        document.getElementById(
-            "popupClose"
-        );
-
-
-    const giftClose =
-        document.getElementById(
-            "giftPopupClose"
-        );
-
-
-    if (popupClose) {
-
-        popupClose.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .getElementById(
-                        "celebrationPopup"
-                    )
-                    .classList.remove(
-                        "active"
-                    );
-
-            }
-        );
-
-    }
-
-
-    if (giftClose) {
-
-        giftClose.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .getElementById(
-                        "giftPopup"
-                    )
-                    .classList.remove(
-                        "active"
-                    );
-
-            }
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   BACK BUTTON
-========================================= */
-
-function setupBackButton() {
-
-    const button =
-        document.getElementById(
-            "backButton"
-        );
-
-
-    if (!button) return;
-
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            if (
-                window.history.length > 1
-            ) {
-
-                window.history.back();
-
-            } else {
-
-                window.location.href =
-                    "index.html";
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   MUSIC TOP BUTTON
-========================================= */
-
-function setupMusicTopButton() {
-
-    const button =
-        document.getElementById(
-            "musicButton"
-        );
-
-
-    if (!button) return;
-
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            const section =
-                document.querySelector(
-                    ".music-section"
-                );
-
-
-            if (section) {
-
-                section.scrollIntoView({
-                    behavior:
-                        "smooth"
-                });
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   ESCAPE
+   INITIALIZE
 ========================================= */
 
 document.addEventListener(
-    "keydown",
-    event => {
+    "DOMContentLoaded",
+    function () {
 
-        if (
-            event.key !==
-            "Escape"
-        )
-            return;
+        loadBirthdayData();
 
+        loadTheme();
 
-        document
-            .querySelectorAll(
-                ".celebration-popup.active"
-            )
-            .forEach(
-                popup =>
-                    popup.classList.remove(
-                        "active"
-                    )
-            );
+        displayBirthdayData();
 
+        displayPhotos();
 
-        const lightbox =
-            document.getElementById(
-                "imageLightbox"
-            );
+        displayVideos();
+
+        displayMusic();
+
+        displayVoice();
+
+        setupThemes();
+
+        setupReveal();
+
+        startCountdown();
 
 
-        if (lightbox) {
+        /* Create occasional balloons */
 
-            lightbox.classList.remove(
-                "active"
-            );
-
-        }
+        setInterval(
+            createBalloon,
+            8000
+        );
 
     }
 );
-
-
-/* =========================================
-   INDEXEDDB
-========================================= */
-
-const DB_NAME =
-    "BirthdayVerseDB";
-
-const DB_VERSION =
-    1;
-
-const STORE_NAME =
-    "media";
-
-
-function openDatabase() {
-
-    return new Promise(
-        (resolve,reject) => {
-
-            const request =
-                indexedDB.open(
-                    DB_NAME,
-                    DB_VERSION
-                );
-
-
-            request.onupgradeneeded =
-                event => {
-
-                    const db =
-                        event.target.result;
-
-
-                    if (
-                        !db.objectStoreNames
-                            .contains(
-                                STORE_NAME
-                            )
-                    ) {
-
-                        db.createObjectStore(
-                            STORE_NAME
-                        );
-
-                    }
-
-                };
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve(
-                        request.result
-                    );
-
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
-}
-
-
-/* =========================================
-   SAVE MEDIA
-========================================= */
-
-async function saveMedia(
-    key,
-    value
-) {
-
-    try {
-
-        const db =
-            await openDatabase();
-
-
-        return new Promise(
-            (resolve,reject) => {
-
-                const transaction =
-                    db.transaction(
-                        STORE_NAME,
-                        "readwrite"
-                    );
-
-
-                const store =
-                    transaction.objectStore(
-                        STORE_NAME
-                    );
-
-
-                const request =
-                    store.put(
-                        value,
-                        key
-                    );
-
-
-                request.onsuccess =
-                    () =>
-                        resolve(true);
-
-
-                request.onerror =
-                    () =>
-                        reject(
-                            request.error
-                        );
-
-            }
-        );
-
-    } catch {
-
-        return false;
-
-    }
-
-}
-
-
-/* =========================================
-   GET MEDIA
-========================================= */
-
-async function getMedia(
-    key
-) {
-
-    try {
-
-        const db =
-            await openDatabase();
-
-
-        return new Promise(
-            (resolve,reject) => {
-
-                const transaction =
-                    db.transaction(
-                        STORE_NAME,
-                        "readonly"
-                    );
-
-
-                const store =
-                    transaction.objectStore(
-                        STORE_NAME
-                    );
-
-
-                const request =
-                    store.get(
-                        key
-                    );
-
-
-                request.onsuccess =
-                    () =>
-                        resolve(
-                            request.result
-                        );
-
-
-                request.onerror =
-                    () =>
-                        reject(
-                            request.error
-                        );
-
-            }
-        );
-
-    } catch {
-
-        return null;
-
-    }
-
-}
-
-
-/* =========================================
-   INDEXEDDB SETUP
-========================================= */
-
-async function setupIndexedDB() {
-
-    if (
-        !("indexedDB" in window)
-    ) {
-
-        console.warn(
-            "IndexedDB is not supported."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        await openDatabase();
-
-        await migrateLocalMedia();
-
-        await loadStoredMedia();
-
-    } catch(error) {
-
-        console.warn(
-            "IndexedDB setup failed:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   MIGRATE LOCAL STORAGE MEDIA
-========================================= */
-
-async function migrateLocalMedia() {
-
-    const existing =
-        await getMedia(
-            "birthdayMedia"
-        );
-
-
-    if (existing) {
-
-        return;
-
-    }
-
-
-    if (
-        birthdayMedia &&
-        typeof birthdayMedia ===
-        "object"
-    ) {
-
-        await saveMedia(
-            "birthdayMedia",
-            birthdayMedia
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   LOAD INDEXEDDB MEDIA
-========================================= */
-
-async function loadStoredMedia() {
-
-    const stored =
-        await getMedia(
-            "birthdayMedia"
-        );
-
-
-    if (!stored) return;
-
-
-    birthdayMedia =
-        stored;
-
-
-    setupGallery();
-
-    setupVideos();
-
-}
-
-
-/* =========================================
-   PWA
-========================================= */
-
-let deferredInstallPrompt =
-    null;
-
-
-function setupPWA() {
-
-    const installButton =
-        document.getElementById(
-            "installButton"
-        );
-
-
-    const installPopup =
-        document.getElementById(
-            "installPopup"
-        );
-
-
-    const closeButton =
-        document.getElementById(
-            "installPopupClose"
-        );
-
-
-    const confirmButton =
-        document.getElementById(
-            "confirmInstall"
-        );
-
-
-    window.addEventListener(
-        "beforeinstallprompt",
-        event => {
-
-            event.preventDefault();
-
-            deferredInstallPrompt =
-                event;
-
-
-            if (installButton) {
-
-                installButton.style.display =
-                    "block";
-
-            }
-
-        }
-    );
-
-
-    if (installButton) {
-
-        installButton.addEventListener(
-            "click",
-            () => {
-
-                if (
-                    deferredInstallPrompt
-                ) {
-
-                    installPopup.classList.add(
-                        "active"
-                    );
-
-                } else {
-
-                    alert(
-                        "If the Install button is not available, open BirthdayVerse in Chrome using Live Server or HTTPS."
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (closeButton) {
-
-        closeButton.addEventListener(
-            "click",
-            () => {
-
-                installPopup.classList.remove(
-                    "active"
-                );
-
-            }
-        );
-
-    }
-
-
-    if (confirmButton) {
-
-        confirmButton.addEventListener(
-            "click",
-            async () => {
-
-                if (
-                    !deferredInstallPrompt
-                )
-                    return;
-
-
-                deferredInstallPrompt.prompt();
-
-
-                const result =
-                    await deferredInstallPrompt.userChoice;
-
-
-                console.log(
-                    "Install result:",
-                    result.outcome
-                );
-
-
-                deferredInstallPrompt =
-                    null;
-
-
-                installPopup.classList.remove(
-                    "active"
-                );
-
-            }
-        );
-
-    }
-
-
-    window.addEventListener(
-        "appinstalled",
-        () => {
-
-            deferredInstallPrompt =
-                null;
-
-
-            if (installButton) {
-
-                installButton.style.display =
-                    "none";
-
-            }
-
-        }
-    );
-
-
-    registerServiceWorker();
-
-}
-
-
-/* =========================================
-   SERVICE WORKER
-========================================= */
-
-function registerServiceWorker() {
-
-    if (
-        "serviceWorker" in navigator
-    ) {
-
-        window.addEventListener(
-            "load",
-            () => {
-
-                navigator.serviceWorker
-                    .register(
-                        "sw.js"
-                    )
-                    .then(
-                        registration => {
-
-                            console.log(
-                                "BirthdayVerse Service Worker registered:",
-                                registration.scope
-                            );
-
-                        }
-                    )
-                    .catch(
-                        error => {
-
-                            console.warn(
-                                "Service Worker registration failed:",
-                                error
-                            );
-
-                        }
-                    );
-
-            }
-        );
-
-    }
-
-}
